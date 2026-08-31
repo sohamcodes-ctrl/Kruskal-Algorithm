@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <script>document.documentElement.dataset.theme = localStorage.getItem('theme') || 'dark';</script>
+  <title>Kruskal Algorithm Visualizer</title>
+  <meta name="description" content="Interactive Kruskal's Minimum Spanning Tree Algorithm Visualizer">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div id="app">
+    <header>
+      <div class="header-left">
+        <div class="header-title">✦ KRUSKAL ALGORITHM</div>
+        <div class="header-sub"></div>
+      </div>
+      <div class="header-right">
+        <button class="hdr-btn" id="btnTheme" aria-label="Toggle Theme">☀️/🌙</button>
+        <button class="hdr-btn" id="btnUndo" aria-label="Undo" disabled>↶ Undo</button>
+        <button class="hdr-btn" id="btnRedo" aria-label="Redo" disabled>↷ Redo</button>
+        <button class="hdr-btn" id="btnReset" aria-label="Reset everything">↺ Reset</button>
+        <select class="hdr-btn" id="presetSelect" aria-label="Load preset graph"
+          style="appearance:none;padding-right:24px;background-image:var(--sel-arrow);background-repeat:no-repeat;background-position:right 10px center;background-color:var(--bg-card)">
+          <option value="">Preset ▾</option>
+          <option value="1">Simple 5-node</option>
+          <option value="2">Classic 7-node MST</option>
+          <option value="3">Dense 10-node</option>
+          <option value="4">Disconnected graph</option>
+        </select>
+      </div>
+    </header>
+
+    <aside class="sidebar">
+      <!-- Mode -->
+      <div class="panel-section">
+        <div class="panel-title">Mode</div>
+        <div class="mode-group">
+          <button class="mode-btn active" data-mode="node" aria-label="Add Node mode"><span
+              class="mode-icon">⬤</span><span>Node</span></button>
+          <button class="mode-btn" data-mode="edge" aria-label="Add Edge mode"><span
+              class="mode-icon">━</span><span>Edge</span></button>
+          <button class="mode-btn" data-mode="pan" aria-label="Pan / Select mode"><span
+              class="mode-icon">✥</span><span>Pan</span></button>
+        </div>
+      </div>
+      <!-- Add Node -->
+      <div class="panel-section">
+        <div class="panel-title">Add Node</div>
+        <div class="form-row">
+          <label class="form-label">Label</label>
+          <input class="form-input" id="nodeLabel" maxlength="2" value="A" style="text-transform:uppercase">
+        </div>
+        <button class="btn btn-primary btn-block btn-sm" id="btnAddNode"><span>+ Add Node</span></button>
+      </div>
+      <!-- Add Edge -->
+      <div class="panel-section">
+        <div class="panel-title">Add Edge</div>
+        <div class="form-row">
+          <label class="form-label">From</label>
+          <select class="form-select" id="edgeFrom"></select>
+        </div>
+        <div class="form-row">
+          <label class="form-label">To</label>
+          <select class="form-select" id="edgeTo"></select>
+        </div>
+        <div class="form-row">
+          <label class="form-label">Weight</label>
+          <input type="range" id="weightSlider" min="1" max="50" value="5" style="flex:1">
+          <input class="form-input" id="weightNum" type="number" min="1" max="50" value="5" style="width:50px">
+        </div>
+        <button class="btn btn-primary btn-block btn-sm" id="btnAddEdge"><span>+ Add Edge</span></button>
+        <div class="inline-error" id="edgeError"></div>
+      </div>
+      <!-- Algorithm -->
+      <div class="panel-section">
+        <div class="panel-title">Algorithm</div>
+        <div class="algo-grid">
+          <button class="btn btn-success btn-sm" id="btnRun"><span>▶ Run</span></button>
+          <button class="btn btn-primary btn-sm" id="btnStep"><span>⏭ Step</span></button>
+          <button class="btn btn-ghost btn-sm" id="btnPause"><span>⏸ Pause</span></button>
+          <button class="btn btn-danger btn-sm" id="btnAlgoReset"><span>↺ Reset</span></button>
+        </div>
+        <div class="slider-row">
+          <label>Slow</label>
+          <input type="range" id="speedSlider" min="200" max="1500" value="900">
+          <label>Fast</label>
+        </div>
+      </div>
+      <!-- Stats -->
+      <div class="panel-section">
+        <div class="panel-title">Stats</div>
+        <div class="stat-row"><span class="stat-label">Nodes</span><span class="stat-value" id="statNodes">0</span>
+        </div>
+        <div class="stat-row"><span class="stat-label">Edges</span><span class="stat-value" id="statEdges">0</span>
+        </div>
+        <div class="stat-row"><span class="stat-label">MST Edges</span><span class="stat-value" id="statMST">0</span>
+        </div>
+        <div class="stat-row"><span class="stat-label">MST Weight</span><span class="stat-value"
+            id="statWeight">0</span></div>
+        <div class="stat-row"><span class="stat-label">Components</span><span class="stat-value" id="statComp">0</span>
+        </div>
+      </div>
+    </aside>
+
+    <div class="resizer-v" id="resizerV"></div>
+
+    <div class="canvas-wrap">
+      <canvas id="graphCanvas" role="img" aria-label="Graph visualization canvas"></canvas>
+      <div class="canvas-hint" id="canvasHint">Click to add a node</div>
+    </div>
+
+    <div class="resizer-h" id="resizerH"></div>
+
+    <div class="bottom-panel">
+      <div class="bottom-header">
+        <h3>Algorithm Steps</h3>
+        <button class="btn btn-ghost btn-sm" id="btnClearLog"><span>Clear</span></button>
+      </div>
+      <div class="step-log" id="stepLog"></div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="celebrationModal">
+      <h2>🎉 MST Complete!</h2>
+      <p>Total Weight</p>
+      <div class="big-num" id="modalWeight">0</div>
+      <p id="modalEdges">Edges used: 0 / 0</p>
+      <div class="modal-buttons">
+        <button class="btn btn-primary" id="btnModalDetails"><span>View Details</span></button>
+        <button class="btn btn-success" id="btnModalAgain"><span>Run Again</span></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="context-menu" id="ctxMenu">
+    <div class="ctx-item" id="ctxRename">Rename</div>
+    <div class="ctx-item" id="ctxEditWeight">Edit Weight</div>
+    <div class="ctx-item danger" id="ctxDeleteNode">Delete Node</div>
+    <div class="ctx-item danger" id="ctxDeleteEdge">Delete Edge</div>
+    <div class="ctx-item danger" id="ctxDeleteEdges">Delete All Edges</div>
+  </div>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
