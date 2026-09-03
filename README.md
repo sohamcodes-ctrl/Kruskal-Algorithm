@@ -1,2 +1,2 @@
 # Kruskal-Algorithm
-Help to visualize the Kruskal algorithm
+easy way to visualize and understanding of Kruskal algorithm
