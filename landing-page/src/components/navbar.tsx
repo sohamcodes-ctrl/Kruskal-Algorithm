@@ -19,9 +19,9 @@ export default function Navbar() {
           <Link href="#features" className="hover:text-foreground transition-colors">Features</Link>
         </div>
 
-        <button className="flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm font-medium hover:bg-primary/90 transition-all">
+        <Link href="/kruskal-visualizer.html" className="flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm font-medium hover:bg-primary/90 transition-all">
           Launch Visualizer <ArrowRight className="w-4 h-4" />
-        </button>
+        </Link>
       </div>
     </nav>
   );

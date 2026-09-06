@@ -29,9 +29,9 @@ export default function Hero() {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 mb-4">
-            <button className="flex items-center justify-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-lg font-medium hover:bg-primary/90 transition-all hover:scale-[1.02] active:scale-95 shadow-lg shadow-primary/20">
+            <a href="/kruskal-visualizer.html" className="flex items-center justify-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-lg font-medium hover:bg-primary/90 transition-all hover:scale-[1.02] active:scale-95 shadow-lg shadow-primary/20">
               Launch Visualizer <ArrowRight className="w-4 h-4" />
-            </button>
+            </a>
             <button className="flex items-center justify-center gap-2 bg-muted text-foreground px-6 py-3 rounded-lg font-medium hover:bg-muted/80 transition-all border border-border">
               Learn How It Works
             </button>

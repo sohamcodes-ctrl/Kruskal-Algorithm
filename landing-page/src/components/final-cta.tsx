@@ -9,9 +9,9 @@ export default function FinalCTA() {
         <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto">
           Stop reading about Minimum Spanning Trees. Visualize how they are built step-by-step.
         </p>
-        <button className="bg-primary text-primary-foreground px-8 py-4 rounded-lg text-lg font-medium hover:bg-primary/90 transition-all hover:scale-105 active:scale-95 shadow-xl shadow-primary/25">
+        <a href="/kruskal-visualizer.html" className="inline-block bg-primary text-primary-foreground px-8 py-4 rounded-lg text-lg font-medium hover:bg-primary/90 transition-all hover:scale-105 active:scale-95 shadow-xl shadow-primary/25">
           Launch Kruskal Visualizer →
-        </button>
+        </a>
       </div>
     </section>
   );
